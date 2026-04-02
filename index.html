@@ -7,164 +7,186 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        body {
+            background-color: #0f172a;
+        }
         .chart-container {
             position: relative;
             width: 100%;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-            height: 40vh;
-            min-height: 300px;
-            max-height: 400px;
+            height: 350px;
+        }
+        .nav-btn {
+            color: #94a3b8;
+            transition: all 0.3s ease;
+        }
+        .nav-btn:hover {
+            background-color: rgba(20, 184, 166, 0.1);
+            color: #2dd4bf;
         }
         .nav-btn.active {
-            background-color: #0f766e;
+            background-color: #0d9488;
             color: white;
-            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3);
         }
         .timeline-item.active .timeline-dot {
-            background-color: #0f766e;
-            border-color: #0f766e;
+            background-color: #2dd4bf;
+            border-color: #2dd4bf;
+            box-shadow: 0 0 10px rgba(45, 212, 191, 0.5);
         }
         .timeline-item.active .timeline-title {
-            color: #0f766e;
-            font-weight: 700;
+            color: #2dd4bf;
         }
-        /* Animación suave para cambios de sección */
-        .animate-fade-in {
+        .view-section {
             animation: fadeIn 0.4s ease-out forwards;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        .logo-container {
+            border: 2px solid #1e293b;
+            transition: all 0.3s ease;
+        }
+        .logo-container:hover {
+            border-color: #2dd4bf;
+            transform: scale(1.02);
+        }
+        /* Custom scrollbar para sidebar móvil */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="bg-stone-50 text-stone-800 font-sans antialiased selection:bg-teal-200 selection:text-teal-900">
+<body class="text-slate-200 font-sans antialiased selection:bg-teal-500/30">
 
     <div class="flex flex-col md:flex-row min-h-screen">
         
         <!-- Sidebar / Navigation -->
-        <aside class="w-full md:w-1/4 lg:w-1/5 bg-white border-r border-stone-200 p-6 flex flex-col shadow-sm z-10 sticky top-0 md:h-screen">
-            <div class="mb-8 text-center md:text-left">
-                <div class="w-24 h-24 bg-stone-100 rounded-full mx-auto md:mx-0 mb-4 flex items-center justify-center text-3xl shadow-inner border-4 border-white">
-                    &#128187;
+        <aside class="w-full md:w-80 bg-slate-900 border-r border-slate-800 p-8 flex flex-col sticky top-0 md:h-screen z-20 shadow-2xl">
+            <div class="mb-10 text-center md:text-left">
+                <div class="relative inline-block mb-6">
+                    <!-- Contenedor del Logo de Elefante -->
+                    <div class="w-28 h-28 rounded-3xl bg-slate-950 flex items-center justify-center overflow-hidden shadow-2xl logo-container">
+                        <img src="logo.png" alt="Wilman Peña Logo" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=WP&background=0d9488&color=fff&size=128'">
+                    </div>
+                    <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-teal-500 rounded-full border-4 border-slate-900 shadow-lg"></div>
                 </div>
-                <h1 class="text-2xl font-bold text-stone-900 leading-tight">Wilman José Peña</h1>
-                <h2 class="text-sm font-medium text-teal-700 mt-1">Ingeniería & Automatización IT</h2>
-                <div class="mt-4 text-xs text-stone-500 space-y-2">
-                    <p class="flex items-center gap-2">&#128205; Caracas, Venezuela</p>
-                    <p class="flex items-center gap-2">&#128222; +58-4241535515</p>
-                    <p class="flex items-center gap-2">&#128231; wilmanjosepenapalma@gmail.com</p>
+                <h1 class="text-2xl font-black text-white tracking-tight leading-tight">WILMAN PEÑA</h1>
+                <h2 class="text-xs font-bold text-teal-400 mt-2 uppercase tracking-widest">TSU en Informática</h2>
+                
+                <div class="mt-6 space-y-2 text-xs text-slate-400">
+                    <p class="flex items-center gap-2 hover:text-teal-400 transition-colors"><span>&#128205;</span> Caracas, Venezuela</p>
+                    <p class="flex items-center gap-2 hover:text-teal-400 transition-colors"><span>&#128222;</span> +58 424-1535515</p>
+                    <p class="flex items-center gap-2 hover:text-teal-400 transition-colors break-all"><span>&#128231;</span> v.28149434.wp@gmail.com</p>
                 </div>
             </div>
 
-            <nav class="flex flex-row md:flex-col gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
-                <button onclick="navigate('resumen')" id="btn-resumen" class="nav-btn active px-4 py-2 text-sm text-left rounded-lg transition-all hover:bg-stone-100 whitespace-nowrap md:whitespace-normal">
-                    &#128202; Resumen y Perfil
+            <nav class="flex flex-row md:flex-col gap-2 overflow-x-auto pb-4 md:pb-0 scrollbar-hide">
+                <button onclick="navigate('resumen')" id="btn-resumen" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all text-left whitespace-nowrap md:whitespace-normal">
+                    <span>&#128202;</span> Resumen y Perfil
                 </button>
-                <button onclick="navigate('experiencia')" id="btn-experiencia" class="nav-btn px-4 py-2 text-sm text-left rounded-lg transition-all hover:bg-stone-100 whitespace-nowrap md:whitespace-normal">
-                    &#128188; Experiencia Laboral
+                <button onclick="navigate('experiencia')" id="btn-experiencia" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all text-left whitespace-nowrap md:whitespace-normal">
+                    <span>&#128188;</span> Experiencia Laboral
                 </button>
-                <button onclick="navigate('proyectos')" id="btn-proyectos" class="nav-btn px-4 py-2 text-sm text-left rounded-lg transition-all hover:bg-stone-100 whitespace-nowrap md:whitespace-normal">
-                    &#128640; Proyectos
+                <button onclick="navigate('proyectos')" id="btn-proyectos" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all text-left whitespace-nowrap md:whitespace-normal">
+                    <span>&#128640;</span> Proyectos
                 </button>
-                <button onclick="navigate('detalles')" id="btn-detalles" class="nav-btn px-4 py-2 text-sm text-left rounded-lg transition-all hover:bg-stone-100 whitespace-nowrap md:whitespace-normal">
-                    &#127891; Educación y Stack
+                <button onclick="navigate('detalles')" id="btn-detalles" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all text-left whitespace-nowrap md:whitespace-normal">
+                    <span>&#127891;</span> Educación y Stack
                 </button>
             </nav>
 
-            <div class="mt-auto hidden md:block pt-8 border-t border-stone-100">
-                <p class="text-[10px] uppercase tracking-widest text-stone-400 mb-4 font-bold">Conecta conmigo</p>
-                <div class="flex gap-4">
-                    <a href="https://www.linkedin.com/in/wilman-peña" target="_blank" class="text-stone-400 hover:text-teal-700 transition-colors text-xl" title="LinkedIn">&#128100;</a>
-                    <a href="https://gravatar.com/v28149434wp" target="_blank" class="text-stone-400 hover:text-teal-700 transition-colors text-xl" title="Portfolio">&#127760;</a>
-                </div>
+            <div class="mt-auto hidden md:block pt-8 border-t border-slate-800">
+                <a href="https://www.linkedin.com/in/wilman-jose-pe%C3%B1a-palma-36382A211/" target="_blank" class="text-[10px] uppercase tracking-widest text-slate-500 hover:text-teal-400 font-black transition-all">
+                    Ver Perfil LinkedIn →
+                </a>
             </div>
         </aside>
 
         <!-- Main Content Area -->
-        <main class="w-full md:w-3/4 lg:w-4/5 p-6 md:p-12 overflow-y-auto">
+        <main class="flex-1 p-6 md:p-16 overflow-y-auto bg-slate-950/50">
             
             <!-- SECTION: Resumen -->
-            <section id="view-resumen" class="view-section animate-fade-in block">
-                <header class="mb-10 border-b border-stone-200 pb-6">
-                    <h2 class="text-3xl font-bold text-stone-800 mb-4">Perfil Profesional</h2>
-                    <p class="text-stone-600 leading-relaxed text-lg">
-                        Especialista en IT enfocado en la arquitectura de flujos de trabajo inteligentes y la administración de ecosistemas en la nube.
-                    </p>
-                </header>
+            <section id="view-resumen" class="view-section block">
+                <div class="max-w-5xl">
+                    <header class="mb-12">
+                        <h2 class="text-4xl font-black text-white mb-6 tracking-tight">Perfil Profesional</h2>
+                        <p class="text-xl text-slate-400 leading-relaxed max-w-3xl">
+                            Especialista en IT enfocado en la arquitectura de <span class="text-teal-400 font-bold">flujos de trabajo inteligentes</span> y la administración de ecosistemas en la nube.
+                        </p>
+                    </header>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    <div class="space-y-6">
-                        <h3 class="text-xl font-semibold text-teal-800">&#128640; Resumen Ejecutivo</h3>
-                        <p class="text-stone-600 leading-relaxed">
-                            Sólida experiencia en Infraestructura y <strong>Automatización de Procesos (RPA/DPA)</strong>. Administración de entornos <strong>Azure, Microsoft 365 y Google Cloud</strong>.
-                        </p>
-                        <p class="text-stone-600 leading-relaxed">
-                            Especializado en el diseño de integraciones mediante <strong>n8n, Power Automate y agentes de IA</strong>, priorizando la seguridad y la eficiencia operativa.
-                        </p>
-                        <div class="bg-white p-5 rounded-xl border border-stone-200 shadow-sm">
-                            <h4 class="font-bold text-stone-800 mb-3 flex items-center gap-2">
-                                <span class="w-2 h-2 bg-teal-500 rounded-full"></span>
-                                Objetivos Actuales
-                            </h4>
-                            <ul class="space-y-2 text-sm text-stone-600">
-                                <li>• Optimización de procesos corporativos mediante IA.</li>
-                                <li>• Escalabilidad de infraestructuras híbridas en Azure.</li>
-                                <li>• Implementación de flujos de orquestación complejos con APIs.</li>
-                            </ul>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+                        <div class="space-y-6">
+                            <div class="bg-slate-900 p-8 rounded-3xl border border-slate-800 shadow-xl">
+                                <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                                    <span class="text-teal-400 text-2xl">&#128640;</span> Resumen Ejecutivo
+                                </h3>
+                                <div class="space-y-4 text-slate-400 leading-relaxed">
+                                    <p>Sólida experiencia en Infraestructura y <strong>Automatización de Procesos (RPA/DPA)</strong>. Administración de entornos Azure, Microsoft 365 y Google Cloud.</p>
+                                    <p>Especializado en el diseño de integraciones mediante <strong>n8n, Power Automate y agentes de IA</strong>, priorizando la seguridad.</p>
+                                </div>
+                                <div class="mt-8 pt-6 border-t border-slate-800">
+                                    <h4 class="font-bold text-teal-400 mb-4 text-xs uppercase tracking-widest">Objetivos Actuales</h4>
+                                    <ul class="space-y-3 text-sm">
+                                        <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-teal-500 rounded-full"></span> Optimización corporativa vía IA.</li>
+                                        <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-teal-500 rounded-full"></span> Escalabilidad en Azure.</li>
+                                        <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-teal-500 rounded-full"></span> Orquestación con APIs.</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="bg-white p-6 rounded-2xl shadow-md border border-stone-100">
-                        <h3 class="text-center font-bold text-stone-700 mb-2">Análisis de Competencias</h3>
-                        <p class="text-center text-xs text-stone-400 mb-4">Visualización de dominio técnico por área</p>
-                        <div class="chart-container">
-                            <canvas id="skillsChart"></canvas>
+                        <div class="bg-slate-900 p-8 rounded-3xl shadow-2xl border border-slate-800">
+                            <h3 class="text-center font-bold text-white mb-2 tracking-tight">Análisis de Competencias</h3>
+                            <p class="text-center text-xs text-slate-500 mb-8 uppercase tracking-widest">Dominio Técnico por Área</p>
+                            <div class="chart-container">
+                                <canvas id="skillsChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
             <!-- SECTION: Experiencia -->
-            <section id="view-experiencia" class="view-section animate-fade-in hidden">
-                <header class="mb-10 border-b border-stone-200 pb-6">
-                    <h2 class="text-3xl font-bold text-stone-800 mb-4">Trayectoria Laboral</h2>
-                    <p class="text-stone-600 text-lg">Explora mi historial profesional seleccionando cada posición para ver los hitos clave.</p>
-                </header>
+            <section id="view-experiencia" class="view-section hidden">
+                <div class="max-w-5xl">
+                    <h2 class="text-4xl font-black text-white mb-10 tracking-tight">Trayectoria Laboral</h2>
+                    <div class="flex flex-col lg:flex-row gap-10">
+                        <div class="w-full lg:w-1/3 relative border-l-2 border-slate-800 ml-3 py-2 space-y-12">
+                            <div class="timeline-item active relative pl-8 cursor-pointer group" onclick="showJobDetails('avatsis', this)">
+                                <div class="timeline-dot absolute w-4 h-4 bg-slate-900 border-2 border-slate-700 rounded-full -left-[9px] top-1.5 transition-all"></div>
+                                <h3 class="timeline-title text-lg font-bold text-slate-400 transition-colors">Coordinador Tecnológico</h3>
+                                <p class="text-xs font-bold text-teal-500 uppercase mt-1">AVATSIS</p>
+                                <p class="text-[10px] text-slate-500 mt-1">2024 – Actualidad</p>
+                            </div>
+                            <div class="timeline-item relative pl-8 cursor-pointer group" onclick="showJobDetails('docente', this)">
+                                <div class="timeline-dot absolute w-4 h-4 bg-slate-900 border-2 border-slate-700 rounded-full -left-[9px] top-1.5 transition-all"></div>
+                                <h3 class="timeline-title text-lg font-bold text-slate-400 transition-colors">Docente de Informática</h3>
+                                <p class="text-xs font-bold text-teal-500 uppercase mt-1">Fe y Alegría</p>
+                                <p class="text-[10px] text-slate-500 mt-1">2022 – 2024</p>
+                            </div>
+                            <div class="timeline-item relative pl-8 cursor-pointer group" onclick="showJobDetails('soporte', this)">
+                                <div class="timeline-dot absolute w-4 h-4 bg-slate-900 border-2 border-slate-700 rounded-full -left-[9px] top-1.5 transition-all"></div>
+                                <h3 class="timeline-title text-lg font-bold text-slate-400 transition-colors">Técnico de Soporte</h3>
+                                <p class="text-xs font-bold text-teal-500 uppercase mt-1">VEN 9-1-1</p>
+                                <p class="text-[10px] text-slate-500 mt-1">2021 – 2022</p>
+                            </div>
+                        </div>
 
-                <div class="flex flex-col lg:flex-row gap-8">
-                    <div class="w-full lg:w-1/3 relative border-l-2 border-stone-200 ml-3 py-2 space-y-10">
-                        <div class="timeline-item active relative pl-6 cursor-pointer group" onclick="showJobDetails('avatsis', this)">
-                            <div class="timeline-dot absolute w-4 h-4 bg-white border-2 border-stone-300 rounded-full -left-[9px] top-1 transition-all"></div>
-                            <h3 class="timeline-title text-lg font-bold text-stone-800">Coordinador Tecnológico</h3>
-                            <p class="text-sm font-medium text-teal-600">AVATSIS</p>
-                            <p class="text-xs text-stone-400 mt-1">2024 – Actualidad</p>
-                        </div>
-                        <div class="timeline-item relative pl-6 cursor-pointer group" onclick="showJobDetails('docente', this)">
-                            <div class="timeline-dot absolute w-4 h-4 bg-white border-2 border-stone-300 rounded-full -left-[9px] top-1 transition-all"></div>
-                            <h3 class="timeline-title text-lg font-bold text-stone-600">Docente de Informática</h3>
-                            <p class="text-sm font-medium text-teal-600">Fe y Alegría</p>
-                            <p class="text-xs text-stone-400 mt-1">2022 – 2024</p>
-                        </div>
-                        <div class="timeline-item relative pl-6 cursor-pointer group" onclick="showJobDetails('soporte', this)">
-                            <div class="timeline-dot absolute w-4 h-4 bg-white border-2 border-stone-300 rounded-full -left-[9px] top-1 transition-all"></div>
-                            <h3 class="timeline-title text-lg font-bold text-stone-600">Técnico de Soporte</h3>
-                            <p class="text-sm font-medium text-teal-600">VEN 9-1-1</p>
-                            <p class="text-xs text-stone-400 mt-1">2021 – 2022</p>
-                        </div>
-                    </div>
-
-                    <div class="w-full lg:w-2/3">
-                        <div id="job-details-container" class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 min-h-[400px]">
-                            <h3 id="detail-title" class="text-2xl font-bold text-stone-800 mb-2">Coordinador Tecnológico | AVATSIS</h3>
-                            <p id="detail-date" class="text-sm text-stone-500 mb-8 font-medium">Noviembre 2024 – Actualidad</p>
-                            <div class="space-y-6">
-                                <h4 class="font-bold text-teal-800 uppercase tracking-wider text-xs">Responsabilidades y Logros:</h4>
-                                <ul id="detail-list" class="space-y-4 text-stone-600">
-                                    <!-- Dinámico por JS -->
-                                </ul>
+                        <div class="w-full lg:w-2/3">
+                            <div id="job-details-container" class="bg-slate-900 p-10 rounded-3xl shadow-xl border border-slate-800 min-h-[450px]">
+                                <h3 id="detail-title" class="text-3xl font-black text-white mb-2">Coordinador Tecnológico | AVATSIS</h3>
+                                <p id="detail-date" class="text-sm font-bold text-teal-500 mb-10 uppercase tracking-widest">Noviembre 2024 – Actualidad</p>
+                                <div class="space-y-6">
+                                    <h4 class="font-black text-white uppercase tracking-widest text-xs border-b border-slate-800 pb-2">Responsabilidades y Logros:</h4>
+                                    <ul id="detail-list" class="space-y-5 text-slate-400">
+                                        <!-- Dinámico -->
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -172,122 +194,99 @@
             </section>
 
             <!-- SECTION: Proyectos -->
-            <section id="view-proyectos" class="view-section animate-fade-in hidden">
-                <header class="mb-10 border-b border-stone-200 pb-6">
-                    <h2 class="text-3xl font-bold text-stone-800 mb-4">Proyectos Destacados</h2>
-                    <p class="text-stone-600 text-lg">Soluciones técnicas diseñadas para resolver problemas de negocio reales.</p>
-                </header>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all group">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-lg font-bold text-stone-800 group-hover:text-teal-700">Sistema Gestión INTT</h3>
-                            <span class="text-2xl opacity-50">&#128196;</span>
+            <section id="view-proyectos" class="view-section hidden">
+                <h2 class="text-4xl font-black text-white mb-10 tracking-tight">Proyectos Destacados</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-teal-500/50 transition-all shadow-xl group">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-2xl font-bold text-white group-hover:text-teal-400 transition-colors">Sistema Gestión INTT</h3>
+                            <span class="text-3xl opacity-30 group-hover:opacity-100 transition-opacity">&#128196;</span>
                         </div>
-                        <p class="text-stone-600 text-sm leading-relaxed mb-6">Digitalización integral de procesos para certificados de origen vehicular, optimizando la gestión de datos en Spilfert.</p>
-                        <div class="flex flex-wrap gap-2 mt-auto">
-                            <span class="px-3 py-1 bg-teal-50 text-teal-700 text-[10px] font-bold rounded-full uppercase">Digitalización</span>
-                            <span class="px-3 py-1 bg-stone-50 text-stone-600 text-[10px] font-bold rounded-full uppercase">ERP</span>
+                        <p class="text-slate-400 leading-relaxed mb-8">Digitalización integral de procesos para certificados de origen vehicular, optimizando la gestión de datos corporativos.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-4 py-1.5 bg-slate-800 text-teal-400 text-[10px] font-black rounded-full uppercase tracking-widest">ERP</span>
+                            <span class="px-4 py-1.5 bg-slate-800 text-teal-400 text-[10px] font-black rounded-full uppercase tracking-widest">Azure</span>
                         </div>
                     </div>
 
-                    <div class="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all group">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-lg font-bold text-stone-800 group-hover:text-teal-700">Orquestación Multi-Cloud</h3>
-                            <span class="text-2xl opacity-50">&#128257;</span>
+                    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-teal-500/50 transition-all shadow-xl group">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-2xl font-bold text-white group-hover:text-teal-400 transition-colors">Orquestación Multi-Cloud</h3>
+                            <span class="text-3xl opacity-30 group-hover:opacity-100 transition-opacity">&#128257;</span>
                         </div>
-                        <p class="text-stone-600 text-sm leading-relaxed mb-6">Flujos en n8n integrando Google Workspace, Microsoft Graph y WhatsApp Business API de forma sincronizada.</p>
+                        <p class="text-slate-400 leading-relaxed mb-8">Flujos en n8n integrando Google Workspace, Microsoft Graph y WhatsApp Business API sincronizados.</p>
                         <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-teal-50 text-teal-700 text-[10px] font-bold rounded-full uppercase">n8n</span>
-                            <span class="px-3 py-1 bg-stone-50 text-stone-600 text-[10px] font-bold rounded-full uppercase">APIs</span>
+                            <span class="px-4 py-1.5 bg-slate-800 text-teal-400 text-[10px] font-black rounded-full uppercase tracking-widest">n8n</span>
+                            <span class="px-4 py-1.5 bg-slate-800 text-teal-400 text-[10px] font-black rounded-full uppercase tracking-widest">API REST</span>
                         </div>
                     </div>
-
-                    <div class="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all group">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-lg font-bold text-stone-800 group-hover:text-teal-700">Azure Hybrid Networking</h3>
-                            <span class="text-2xl opacity-50">&#127757;</span>
+                    
+                    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-teal-500/50 transition-all shadow-xl group">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-2xl font-bold text-white group-hover:text-teal-400 transition-colors">Crypto Monitor IA</h3>
+                            <span class="text-3xl opacity-30 group-hover:opacity-100 transition-opacity">&#129302;</span>
                         </div>
-                        <p class="text-stone-600 text-sm leading-relaxed mb-6">Implementación de VNETs y conectividad segura híbrida para proteger la comunicación entre local y nube.</p>
+                        <p class="text-slate-400 leading-relaxed mb-8">Agente de IA para monitoreo de mercado con notificaciones inteligentes integradas a Telegram y OpenAI.</p>
                         <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-teal-50 text-teal-700 text-[10px] font-bold rounded-full uppercase">Cloud Security</span>
-                            <span class="px-3 py-1 bg-stone-50 text-stone-600 text-[10px] font-bold rounded-full uppercase">VNETs</span>
-                        </div>
-                    </div>
-
-                    <div class="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all group">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-lg font-bold text-stone-800 group-hover:text-teal-700">Market AI Agent</h3>
-                            <span class="text-2xl opacity-50">&#129302;</span>
-                        </div>
-                        <p class="text-stone-600 text-sm leading-relaxed mb-6">Agente de IA para monitoreo de mercado en tiempo real con notificaciones inteligentes integradas a Telegram.</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-teal-50 text-teal-700 text-[10px] font-bold rounded-full uppercase">AI</span>
-                            <span class="px-3 py-1 bg-stone-50 text-stone-600 text-[10px] font-bold rounded-full uppercase">Python</span>
+                            <span class="px-4 py-1.5 bg-slate-800 text-teal-400 text-[10px] font-black rounded-full uppercase tracking-widest">AI Agents</span>
+                            <span class="px-4 py-1.5 bg-slate-800 text-teal-400 text-[10px] font-black rounded-full uppercase tracking-widest">Python</span>
                         </div>
                     </div>
                 </div>
             </section>
 
             <!-- SECTION: Educación y Stack -->
-            <section id="view-detalles" class="view-section animate-fade-in hidden">
-                <header class="mb-10 border-b border-stone-200 pb-6">
-                    <h2 class="text-3xl font-bold text-stone-800 mb-4">Educación y Stack</h2>
-                    <p class="text-stone-600 text-lg">Base académica y herramientas clave de mi día a día.</p>
-                </header>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                    <div class="space-y-8">
-                        <div>
-                            <h3 class="text-xl font-bold text-teal-800 mb-6">Formación Académica</h3>
-                            <div class="space-y-4">
-                                <div class="bg-white p-5 rounded-xl border-l-4 border-teal-600 shadow-sm">
-                                    <h4 class="font-bold text-stone-800">Ingeniería de Computación</h4>
-                                    <p class="text-stone-600 text-sm">Universidad Alonso de Ojeda</p>
-                                    <p class="text-teal-600 text-xs font-bold mt-2 uppercase tracking-tighter">En curso (3er trimestre)</p>
-                                </div>
-                                <div class="bg-white p-5 rounded-xl border-l-4 border-stone-300 shadow-sm">
-                                    <h4 class="font-bold text-stone-800">TSU en Informática</h4>
-                                    <p class="text-stone-600 text-sm">Instituto Universitario de Seguros</p>
-                                    <p class="text-stone-400 text-xs mt-2">Graduado: Julio 2023</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-stone-900 p-6 rounded-2xl text-stone-100 shadow-xl">
-                            <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
-                                <span class="text-teal-400">&#10024;</span> Soft Skills
+            <section id="view-detalles" class="view-section hidden">
+                <div class="max-w-5xl">
+                    <h2 class="text-4xl font-black text-white mb-12 tracking-tight">Formación & Stack</h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        <div class="space-y-8">
+                            <h3 class="text-2xl font-bold text-white flex items-center gap-3">
+                                <span class="text-teal-400">&#127891;</span> Educación
                             </h3>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="bg-stone-800 px-3 py-1 rounded text-xs">Pensamiento Crítico</span>
-                                <span class="bg-stone-800 px-3 py-1 rounded text-xs">Adaptabilidad</span>
-                                <span class="bg-stone-800 px-3 py-1 rounded text-xs">Gestión de Equipos</span>
-                                <span class="bg-stone-800 px-3 py-1 rounded text-xs">Autodidacta</span>
+                            <div class="space-y-4">
+                                <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 border-l-4 border-teal-500 shadow-lg">
+                                    <h4 class="text-xl font-bold text-white">Ingeniería de Computación</h4>
+                                    <p class="text-slate-400 text-sm mt-1">Univ. Alonso de Ojeda | <span class="text-teal-400 font-bold">En curso</span></p>
+                                </div>
+                                <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 border-l-4 border-slate-700 shadow-lg">
+                                    <h4 class="text-xl font-bold text-white">TSU en Informática</h4>
+                                    <p class="text-slate-400 text-sm mt-1">ISUM | Graduado 2023</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-gradient-to-br from-teal-900 to-slate-900 p-8 rounded-3xl shadow-xl mt-12">
+                                <h3 class="text-lg font-black text-white mb-6 uppercase tracking-widest">Core Soft Skills</h3>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-slate-950/50 text-teal-200 px-4 py-2 rounded-xl text-xs font-bold border border-teal-500/20">Pensamiento Crítico</span>
+                                    <span class="bg-slate-950/50 text-teal-200 px-4 py-2 rounded-xl text-xs font-bold border border-teal-500/20">Adaptabilidad</span>
+                                    <span class="bg-slate-950/50 text-teal-200 px-4 py-2 rounded-xl text-xs font-bold border border-teal-500/20">Autodidacta</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="space-y-4">
-                        <h3 class="text-xl font-bold text-teal-800 mb-6">Stack Tecnológico</h3>
-                        <div class="grid grid-cols-1 gap-3">
-                            <div class="bg-white p-4 rounded-xl border border-stone-100 flex items-center justify-between">
-                                <span class="font-bold text-stone-700">Azure / Entra ID</span>
-                                <span class="text-teal-600 text-xs font-bold">Experto</span>
-                            </div>
-                            <div class="bg-white p-4 rounded-xl border border-stone-100 flex items-center justify-between">
-                                <span class="font-bold text-stone-700">Automation (n8n / PowerAutomate)</span>
-                                <span class="text-teal-600 text-xs font-bold">Avanzado</span>
-                            </div>
-                            <div class="bg-white p-4 rounded-xl border border-stone-100 flex items-center justify-between">
-                                <span class="font-bold text-stone-700">Google Cloud / APIs</span>
-                                <span class="text-teal-600 text-xs font-bold">Avanzado</span>
-                            </div>
-                            <div class="bg-white p-4 rounded-xl border border-stone-100 flex items-center justify-between">
-                                <span class="font-bold text-stone-700">AI Integration</span>
-                                <span class="text-teal-600 text-xs font-bold">Intermedio+</span>
-                            </div>
-                            <div class="bg-white p-4 rounded-xl border border-stone-100 flex items-center justify-between">
-                                <span class="font-bold text-stone-700">Networking & NSG</span>
-                                <span class="text-teal-600 text-xs font-bold">Intermedio</span>
+                        <div class="space-y-6">
+                            <h3 class="text-2xl font-bold text-white flex items-center gap-3">
+                                <span class="text-teal-400">&#128736;</span> Stack Tecnológico
+                            </h3>
+                            <div class="grid grid-cols-1 gap-3">
+                                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex items-center justify-between group hover:bg-slate-800/50 transition-colors">
+                                    <span class="font-bold text-slate-300 group-hover:text-white">Azure / Entra ID</span>
+                                    <span class="text-teal-400 text-[10px] font-black uppercase tracking-widest">Experto</span>
+                                </div>
+                                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex items-center justify-between group hover:bg-slate-800/50 transition-colors">
+                                    <span class="font-bold text-slate-300 group-hover:text-white">n8n / Power Automate</span>
+                                    <span class="text-teal-400 text-[10px] font-black uppercase tracking-widest">Avanzado</span>
+                                </div>
+                                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex items-center justify-between group hover:bg-slate-800/50 transition-colors">
+                                    <span class="font-bold text-slate-300 group-hover:text-white">Google Cloud / APIs</span>
+                                    <span class="text-teal-400 text-[10px] font-black uppercase tracking-widest">Avanzado</span>
+                                </div>
+                                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex items-center justify-between group hover:bg-slate-800/50 transition-colors">
+                                    <span class="font-bold text-slate-300 group-hover:text-white">IA Integration</span>
+                                    <span class="text-teal-400 text-[10px] font-black uppercase tracking-widest">Intermedio+</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -332,40 +331,26 @@
         let radarChartInstance = null;
 
         function navigate(viewId) {
-            document.querySelectorAll('.view-section').forEach(el => {
-                el.classList.add('hidden');
-                el.classList.remove('block');
-            });
-            
-            document.querySelectorAll('.nav-btn').forEach(el => {
-                el.classList.remove('active');
-            });
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
 
             const targetSection = document.getElementById(`view-${viewId}`);
-            if (targetSection) {
-                targetSection.classList.remove('hidden');
-                targetSection.classList.add('block');
-            }
+            if (targetSection) targetSection.classList.remove('hidden');
 
             const targetBtn = document.getElementById(`btn-${viewId}`);
-            if (targetBtn) {
-                targetBtn.classList.add('active');
-            }
+            if (targetBtn) targetBtn.classList.add('active');
 
             if (viewId === 'resumen') {
                 setTimeout(initOrUpdateChart, 100);
             }
             
-            // Scroll to top on mobile
             if (window.innerWidth < 768) {
                 window.scrollTo(0, 0);
             }
         }
 
         function showJobDetails(jobId, element) {
-            document.querySelectorAll('.timeline-item').forEach(el => {
-                el.classList.remove('active');
-            });
+            document.querySelectorAll('.timeline-item').forEach(el => el.classList.remove('active'));
             element.classList.add('active');
 
             const data = jobData[jobId];
@@ -377,8 +362,8 @@
             
             data.tasks.forEach(task => {
                 const li = document.createElement('li');
-                li.className = 'flex gap-3 items-start';
-                li.innerHTML = `<span class="text-teal-500 mt-1">&#10004;</span> <span class="text-sm">${task}</span>`;
+                li.className = 'flex gap-4 items-start';
+                li.innerHTML = `<span class="text-teal-400 mt-1.5 text-xs">&#11044;</span> <span class="text-sm md:text-base">${task}</span>`;
                 listEl.appendChild(li);
             });
         }
@@ -386,34 +371,21 @@
         function initOrUpdateChart() {
             const ctx = document.getElementById('skillsChart').getContext('2d');
             
-            const chartData = {
-                labels: [
-                    'Automatización/RPA',
-                    'Azure/Cloud',
-                    'Networking',
-                    'Soporte Técnico',
-                    'Integración APIs',
-                    'IA & Agents'
-                ],
-                datasets: [{
-                    label: 'Nivel Técnico',
-                    data: [90, 85, 70, 85, 88, 75],
-                    backgroundColor: 'rgba(15, 118, 110, 0.1)',
-                    borderColor: 'rgba(15, 118, 110, 1)',
-                    pointBackgroundColor: 'rgba(15, 118, 110, 1)',
-                    pointBorderColor: '#fff',
-                    pointHoverRadius: 5,
-                    borderWidth: 2
-                }]
-            };
-
-            if (radarChartInstance) {
-                radarChartInstance.destroy();
-            }
+            if (radarChartInstance) radarChartInstance.destroy();
 
             radarChartInstance = new Chart(ctx, {
                 type: 'radar',
-                data: chartData,
+                data: {
+                    labels: ['Automatización', 'Azure/Cloud', 'Networking', 'Soporte TI', 'Integración APIs', 'IA & Agents'],
+                    datasets: [{
+                        data: [95, 85, 75, 90, 88, 80],
+                        backgroundColor: 'rgba(45, 212, 191, 0.2)',
+                        borderColor: '#2dd4bf',
+                        pointBackgroundColor: '#2dd4bf',
+                        pointBorderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
@@ -422,25 +394,23 @@
                             min: 0,
                             max: 100,
                             ticks: { display: false, stepSize: 20 },
-                            grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                            grid: { color: '#1e293b' },
+                            angleLines: { color: '#1e293b' },
                             pointLabels: {
-                                font: { size: 10, weight: '600' },
-                                color: '#57534e'
+                                font: { size: 10, weight: 'bold' },
+                                color: '#94a3b8'
                             }
                         }
                     },
-                    plugins: {
-                        legend: { display: false }
-                    }
+                    plugins: { legend: { display: false } }
                 }
             });
         }
 
-        // Initialize state
-        window.addEventListener('load', () => {
+        window.onload = () => {
             initOrUpdateChart();
             showJobDetails('avatsis', document.querySelector('.timeline-item'));
-        });
+        };
     </script>
 </body>
 </html>
